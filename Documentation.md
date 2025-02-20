@@ -26,7 +26,7 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
 2. Navigate to your preferred folder.  
 3. Clone the repository:  
    ```bash
-   git clone https://github.com/your-org/menu-management-system.git
+   git clone https://github.com/Shivansh1357/menu-management-system.git
    ```
 4. Move into the folder:  
    ```bash
