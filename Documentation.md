@@ -1,6 +1,6 @@
 # Menu Management System – Documentation
 
-This project provides a **front-end** (Next.js) and **back-end** (Node.js) application for managing menus and their items. Below is a concise guide to get you up and running locally, including how to connect a local database.
+This project provides a **front-end** (Next.js) and **back-end** (Node.js) application for managing menus and their items. Below is a **step-by-step** guide to get everything running locally, along with a **demo** link and an example **database connection** configuration.
 
 ---
 
@@ -8,15 +8,20 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
 
 - **Front-End**: Next.js (React) + Redux Toolkit  
 - **Back-End**: Node.js + Express (Example)  
-- **Database**: PostgreSQL
+- **Database**: PostgreSQL  
+- **Demo URL**: [Loom Recording](https://www.loom.com/share/27b8c23ec1f5443a9105e4c7c54f208d?sid=3f28acaa-168a-4ba2-a180-853861c67dd0)  
 
 ---
 
 ## 2. Prerequisites
 
 - **Node.js** (v14+ recommended)  
-- **npm** or **Pnpm**  
-- A local or remote Postgres **database** 
+- **npm** or **pnpm**  
+- A local PostgreSQL **database** (or use the provided Supabase URI)  
+  - Example connection string:
+    ```
+    postgresql://postgres:nRT9QosxAp7gj7XO@db.eihqlysjuwhhxsdrizqy.supabase.co:5432/postgres
+    ```
 
 ---
 
@@ -37,11 +42,11 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
 
 ## 4. Back-End Setup
 
-1. Navigate to the **backend** directory:  
+1. **Move** to the backend directory:
    ```bash
    cd backend
    ```
-2. Install dependencies:  
+2. **Install dependencies**:
    ```bash
    npm install
    ```
@@ -49,46 +54,49 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
    ```bash
    yarn
    ```
-3. **Configure Environment**  
-   - Create a `.env` file in the **backend** folder to store your database credentials:  
-     ```env
-     DB_HOST=localhost
-     DB_PORT=5432
-     DB_USER=postgres
-     DB_PASSWORD=YOUR_PASSWORD
-     DB_NAME=menu_db
-     ```
-   - Adjust these to match your local database setup.  
+3. **Create a `.env`** in `backend/`:
+   ```env
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USER=postgres
+   DB_PASSWORD=YOUR_PASSWORD
+   DB_NAME=menu_db
 
-4. **Run Migrations / Seeds (if any)**  
-   - If using an ORM (e.g., Sequelize/TypeORM), run migrations:
+   # OR replace the above with a single connection string:
+   DATABASE_URL=postgresql://postgres:nRT9QosxAp7gj7XO@db.eihqlysjuwhhxsdrizqy.supabase.co:5432/postgres
+   ```
+   *Make sure your app reads this variable in your config.*  
+
+4. **Run Migrations **  
+   - Run Prisma migrations and generate client:
      ```bash
-     npm run migrate
+     pnpm prisma migrate dev
+     pnpm prisma generate
      ```
-   - If you have sample seeds:
+   - If you have seed scripts:
      ```bash
-     npm run seed
+     pnpm prisma db seed
      ```
 
 5. **Start Back-End**  
    ```bash
-   npm run dev
+   pnpm start:dev
    ```
    or
    ```bash
-   npm start
+   pnpm start
    ```
-   By default, the server might run on `http://localhost:3001` (or your configured port).
+   The server typically runs at `http://localhost:8080` (or your configured port).
 
 ---
 
 ## 5. Front-End Setup
 
-1. Navigate to the **frontend** directory:  
+1. **Move** to the frontend directory:
    ```bash
    cd ../frontend
    ```
-2. Install dependencies:  
+2. **Install dependencies**:
    ```bash
    npm install
    ```
@@ -96,14 +104,14 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
    ```bash
    yarn
    ```
-3. **Environment Variables**  
-   - Create a `.env` file in **frontend** if needed:
+3. **Environment Variables**:
+   - Create a `.env` in **frontend** if needed:
      ```env
-     NEXT_PUBLIC_API_URL=http://localhost:3001
+     NEXT_PUBLIC_API_URL=http://localhost:3000
      ```
-   - Adjust the API URL to match your back-end server address.
+   - If you deployed the back-end or are using the Supabase URL, update the value accordingly.
 
-4. **Start Front-End**  
+4. **Start the front-end**:
    ```bash
    npm run dev
    ```
@@ -111,27 +119,31 @@ This project provides a **front-end** (Next.js) and **back-end** (Node.js) appli
    ```bash
    yarn dev
    ```
-   By default, the front-end runs on `http://localhost:3000`.
+   By default, this runs at `http://localhost:3000`.
 
 ---
 
-## 6. Connecting a Local Database
+## 6. Connecting a Local (or Remote) Database
 
-- **Choose** your DB engine (MySQL / Postgres / Mongo, etc.).  
-- **Install** it locally.  
-- **Create** a new database named, for instance, `menu_db`.  
-- **Configure** your `.env` as shown in [Back-End Setup](#4-back-end-setup).  
-- **Test** the connection by running the server. It should log "connected" or similar without errors.
+- **Local**: Install PostgreSQL locally. Create a database named `menu_db`. Update `.env` in `backend/` with your local credentials.  
+- **Remote**: Use the provided Supabase connection string. Replace it in your `.env` as:
+  ```env
+  DATABASE_URL=postgresql://postgres:nRT9QosxAp7gj7XO@db.eihqlysjuwhhxsdrizqy.supabase.co:5432/postgres
+  ```
+- **Verify** by running `npm run dev` in `backend/`. You should see a successful DB connection message.
 
 ---
 
 ## 7. Usage
 
-1. With **both** front-end and back-end servers running, open your browser:  
+1. **Run both** the front-end and back-end servers:
+   - `pnpm start:dev` in the `backend/`
+   - `pnpm run dev` in the `frontend/`
+2. Open a browser to:
    ```
    http://localhost:3000
    ```
-2. Access the **Menu** section, create or edit menu items, and see them persist in your local database.
+3. Toggle the **Menu** section, create/edit menu items, and see them persisted in the database.
 
 ---
 
